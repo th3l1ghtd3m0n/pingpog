@@ -1,0 +1,5 @@
+# app
+pingpog
+# useless packages
+node_modules
+*.json
