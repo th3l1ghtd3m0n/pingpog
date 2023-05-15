@@ -16,5 +16,5 @@ make
 
 ## References
 
-http://www.cs.cmu.edu/~ralf/files.html
-http://www.ctyme.com/intr/int.htm
+- http://www.cs.cmu.edu/~ralf/files.html
+- http://www.ctyme.com/intr/int.htm
