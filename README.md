@@ -16,5 +16,6 @@ make
 
 ## References
 
+- [Tsoding](https://github.com/tsoding/pinpog)
 - http://www.cs.cmu.edu/~ralf/files.html
 - http://www.ctyme.com/intr/int.htm
