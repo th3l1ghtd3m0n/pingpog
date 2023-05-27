@@ -19,11 +19,36 @@
 draw_frame:
     pusha
 
+    mov ax, 0x0000
+    mov ds, ax
+
     mov ax, 0xA000
     mov es, ax
 
     mov ch, 0x00
     call draw_ball
+
+    cmp word [ball_x], 0
+    jle .neg_dx
+
+    cmp word [ball_x], WIDTH - BALL_WIDTH
+    jge .neg_dx
+
+    jmp .horcol_end
+.neg_dx:
+    neg word [ball_dx]
+.horcol_end:
+
+    cmp word [ball_y], 0
+    jle .neg_dy
+
+    cmp word [ball_y], HEIGHT - BALL_HEIGHT
+    jge .neg_dy
+
+    jmp .vercol_end
+.neg_dy:
+    neg word [ball_dy]
+.vercol_end:
 
     mov ax, [ball_x]
     add ax, [ball_dx]
@@ -41,37 +66,39 @@ draw_frame:
 
 draw_ball:
 
-    mov word [i], 0
-draw_ball_i:                  ;row
-    mov word [j], 0
-draw_ball_j:                  ;col
+    mov ax, 0x0000
+    mov ds, ax
 
+    mov word [y], 0
+.y:
+    mov word [x], 0
+.x:
     mov ax, WIDTH
-    mov bx, [i]
-    add bx, [ball_x]
+    mov bx, [y]
+    add bx, [ball_y]
     mul bx
     mov bx, ax
-    add bx, [j]
-    add bx, [ball_y]
+    add bx, [x]
+    add bx, [ball_x]
     mov BYTE [es: bx], ch
 
-    inc word [j]
-    cmp word [j], BALL_WIDTH
-    jb draw_ball_j
+    inc word [x]
+    cmp word [x], BALL_WIDTH
+    jb .x
 
-    inc word [i]
-    cmp word [i], BALL_HEIGHT
-    jb draw_ball_i
+    inc word [y]
+    cmp word [y], BALL_HEIGHT
+    jb .y
 
     ret 
 
-i: dw 0xcccc
-j: dw 0xcccc
+x: dw 0xcccc
+y: dw 0xcccc
 
-ball_x: dw 0
-ball_y: dw 0
-ball_dx: dw 1
-ball_dy: dw 1
+ball_x: dw 30
+ball_y: dw 30
+ball_dx: dw 2
+ball_dy: dw (-2)
 
     times 510 - ($-$$) db 0
     dw 0xaa55
